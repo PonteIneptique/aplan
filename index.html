@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Evaluation pour la colorisation des manuscrits</title>
+	<link rel="stylesheet" type="text/css" href="./statics/css/bootstrap.min.css">
+	<style type="text/css">
+		body {
+			background-color: #e2e8f0;
+		}
+		div.withbar {
+			border-top: 5px solid #725794;
+			margin-top: 1em;
+			background-color: white;
+		}
+		h1 {
+			font-size: 1.8em;
+		}
+		h2 {
+			font-size: 1.4em;
+		}
+		h3 {
+			font-size: 1.2em;
+		}
+		.legende {
+			color: #1f1f1f;
+		}
+		section {
+			border-top: 2px dashed #725794;
+			padding-top: 1em;
+			margin-top: 2em;
+		}
+		section:first-of-type {
+			margin-top: 0;
+			border-top: 0;
+		}
+		section > .row {
+			padding-top: .5em;
+			padding-bottom: .5em;
+		}
+		.question {
+			color: red;
+		}
+	</style>
+	<script type="text/javascript">
+
+		// initialisation des variables
+/* jshint expr: true */
+        var centi = 0;
+        var mili = 0;
+        var sec = 0;
+        var sec_;
+        var afficher;
+        var compteur;
+
+        // affichage du compteur à 0
+        document.getElementById('time').innerHTML = "0" + sec + ":" + "0" + mili;
+
+
+        
+        function chrono() {
+            setInterval(function (){
+                mili++;
+                    if (mili > 9) {
+                        mili = 0;
+                    }
+            }, 1);
+            
+            centi++;
+            centi*10;//=======pour passer en dixièmes de sec
+            //=== on remet à zéro quand on passe à 1seconde
+            if (centi > 9) {
+                centi = 0;
+                sec++;
+            }  
+
+            if (sec < 10) {
+                sec_ = "0" + sec;
+            }
+            else {
+                sec_ = sec;
+            }
+                
+            afficher = sec_ + ":" + centi + mili;
+            document.getElementById("time").innerHTML = afficher;
+            
+            reglage = window.setTimeout("chrono();",100);
+        } 
+        
+        
+        function debut()  //== Activation et désactivation des boutons
+            {
+                    document.parametre.lance.disabled = "disabled";
+                    document.parametre.pause.disabled = "";
+                    document.parametre.zero.disabled = "";
+                    document.parametre.intermediaire.disabled = "";
+                    document.parametre.rappel.disabled = "";
+            }
+        function arret() 
+            {	
+                    window.clearTimeout(reglage);
+                    document.parametre.lance.disabled = "";
+                    document.parametre.pause.disabled = "disabled";
+                    document.parametre.zero.disabled = "";
+                    document.parametre.intermediaire.disabled = "";
+                    document.parametre.rappel.disabled = "";
+            }
+            
+        function raz() //====pour remettre à zéro
+            { 
+                    document.parametre.zero.disabled = "disabled";
+                    document.parametre.intermediaire.disabled = "disabled";
+                    document.parametre.rappel.disabled = "disabled";
+                    centi = 0;
+                    mili = 0;
+                    sec = 0;
+                    compteur = "aucun temps intermediaire enregistré";
+                    afficher = sec + "0:" + centi + mili;	
+                    document.getElementById("time").innerHTML = afficher;
+                    document.getElementById('presenter').style.visibility='hidden';
+                    document.getElementsByName('intermediaire')[0].style.backgroundColor = 'rgba(50,205,50, 0.25)';
+            }
+            
+	</script>
+</head>
+<body>
+
+	<div class="container withbar">
+		<section>
+			<h1>Formulaire d'évaluation pour la colorisation automatique de manuscrits</h1>
+			<h2>Explications</h2>
+			<p>Dans l'objectif d'évaluer l'intérêt de la colorisation automatique des microfilms, nous souhaitons récupérer auprès de lecteurs des données permettant de quantifier l'impact de cette colorisation. Les données du formulaire suivant seront anonymisées et partagées dans des publications scientifiques. En participant à ce projet, vous acceptez qu'elles soient partagées dans ces conditions précises.</p>
+		</section>
+		<section>
+			<h2>À propos de vous</h2>
+			<p class="legende">Ces données nous permettront d'évaluer plus finement les contributions. La donnée email ne sera pas partagée: elle permet juste d'assurer un suivi des contributions.</p>
+
+			<div class="row">
+				<label for="email" class="col-sm-6 col-form-label">Votre adresse e-mail</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="email" id="email" name="email" placeholder="Email" required="true"/>
+				</div>
+			</div>
+			<div class="row">
+				<label for="paleoLevel" class="col-sm-6 col-form-label">Définissez votre niveau en paléographie (Moyen-Âge), 9 étant "lecture parfaite", 1 étant "lecture extrêmement difficile"
+				<span class="question">De 1 à 5 ou de 1 à 9 ?</span>
+			</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="number" id="paleoLevel" name="paleoLevel" min="1" max="9" required="true" placeholder="3" />
+				</div>
+			</div>
+			<div class="row">
+				<label for="froLevel" class="col-sm-6 col-form-label">Définissez votre niveau en Ancien-Français, 9 étant "compréhension parfaite", 1 étant "lecture extrêmement difficile"
+				<span class="question">De 1 à 5 ou de 1 à 9 ? Liste déroulange ?</span>
+			</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="number" id="froLevel" name="froLevel" min="1" max="9" required="true" placeholder="3" />
+				</div>
+			</div>
+		</section>
+		<section>
+			<h2>Transcription</h2>
+			<p class="legende">Si possible, mais sans obligation, chronométrez-vous avec l'outil fourni.</p>
+
+			<h3>Ligne 1</h3>
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<img src="./images/line1.png" alt="Ligne 1">
+				</div>
+				<label for="line1" class="col-sm-6 col-form-label">Transcrivez la ligne ci-dessus</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" id="line1" name="line1" placeholder="Votre transcription" />
+				</div>
+				<div class="col-sm-2 offset-sm-6 col-form-label"><i>Chronomètre</i></div>
+				<div class="col-sm-4">
+					<div class="input-group">
+					  <input type="text" class="form-control" value="00:00" aria-label="Chronomètre">
+					  <button class="btn btn-outline-secondary" type="button">Démarrage</button>
+					  <button class="btn btn-outline-secondary" type="button">Arrêt</button>
+					  <button class="btn btn-outline-secondary" type="button">Réinitialisation</button>
+					</div>
+				</div>
+			</div>
+			<h3>Ligne 2</h3>
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<img src="./images/line2.png" alt="Ligne 2">
+				</div>
+				<label for="line1" class="col-sm-6 col-form-label">Transcrivez la ligne ci-dessus</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" id="line1" name="line1" placeholder="Votre transcription" />
+				</div>
+				<div class="col-sm-2 offset-sm-6 col-form-label"><i>Chronomètre</i></div>
+				<div class="col-sm-4">
+					<div class="input-group">
+					  <input type="text" class="form-control" value="00:00" aria-label="Chronomètre">
+					  <button class="btn btn-outline-secondary" type="button">Démarrage</button>
+					  <button class="btn btn-outline-secondary" type="button">Arrêt</button>
+					  <button class="btn btn-outline-secondary" type="button">Réinitialisation</button>
+					</div>
+				</div>
+			</div>
+			<h3>Ligne 3</h3>
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<img src="./images/line3.png" alt="Ligne 3">
+				</div>
+				<label for="line1" class="col-sm-6 col-form-label">Transcrivez la ligne ci-dessus</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" id="line1" name="line1" placeholder="Votre transcription" />
+				</div>
+				<div class="col-sm-2 offset-sm-6 col-form-label"><i>Chronomètre</i></div>
+				<div class="col-sm-4">
+					<div class="input-group">
+					  <input type="text" class="form-control" value="00:00" aria-label="Chronomètre">
+					  <button class="btn btn-outline-secondary" type="button">Démarrage</button>
+					  <button class="btn btn-outline-secondary" type="button">Arrêt</button>
+					  <button class="btn btn-outline-secondary" type="button">Réinitialisation</button>
+					</div>
+				</div>
+			</div>
+			<h3>Ligne 4</h3>
+			<div class="row">
+				<div class="col-sm-12 text-center">
+					<img src="./images/line4.png" alt="Ligne 4">
+				</div>
+				<label for="line1" class="col-sm-6 col-form-label">Transcrivez la ligne ci-dessus</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" id="line1" name="line1" placeholder="Votre transcription" />
+				</div>
+				<div class="col-sm-2 offset-sm-6 col-form-label"><i>Chronomètre</i></div>
+				<div class="col-sm-4">
+					<div class="input-group">
+					  <input type="text" class="form-control" value="00:00" aria-label="Chronomètre">
+					  <button class="btn btn-outline-secondary" type="button">Démarrage</button>
+					  <button class="btn btn-outline-secondary" type="button">Arrêt</button>
+					  <button class="btn btn-outline-secondary" type="button">Réinitialisation</button>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section>
+			<h2>Évaluation qualitative</h2>
+			<p class="legende">Dans les prochaines lignes, choisissez simplement vos images préférées</p>
+			<h3>Choix 1</h3>
+			<div class="row">
+				<div class="col-sm-4"><label for="choice1_1"><img src="./images/choix1.1.png" style="width:100%;" alt="Choix 1" /></label></div>
+				<div class="col-sm-2"><input type="checkbox" value="1" id="choice1_1" name="choice1" /></div>
+				<div class="col-sm-4"><label for="choice1_2"><img src="./images/choix1.2.png" style="width:100%;" alt="Choix 2" /></label></div>
+				<div class="col-sm-2"><input type="checkbox" value="2" id="choice1_2" name="choice1" /></div>
+			</div>
+			<h3>Choix 2</h3>
+			<div class="row">
+				<div class="col-sm-4"><label for="choice1_1"><img src="./images/choix1.1.png" style="width:100%;" alt="Choix 1" /></label></div>
+				<div class="col-sm-2"><input type="checkbox" value="1" id="choice1_1" name="choice1" /></div>
+				<div class="col-sm-4"><label for="choice1_2"><img src="./images/choix1.2.png" style="width:100%;" alt="Choix 2" /></label></div>
+				<div class="col-sm-2"><input type="checkbox" value="2" id="choice1_2" name="choice1" /></div>
+			</div>
+			<h3>Choix 3</h3>
+			<div class="row">
+				<div class="col-sm-4"><label for="choice1_1"><img src="./images/choix1.1.png" style="width:100%;" alt="Choix 1" /></label></div>
+				<div class="col-sm-2"><input type="checkbox" value="1" id="choice1_1" name="choice1" /></div>
+				<div class="col-sm-4"><label for="choice1_2"><img src="./images/choix1.2.png" style="width:100%;" alt="Choix 2" /></label></div>
+				<div class="col-sm-2"><input type="checkbox" value="2" id="choice1_2" name="choice1" /></div>
+			</div>
+		</section>
+
+		<section>
+			<h2>C'est fini !</h2>
+			<p class="légende">Il ne vous reste plus qu'à envoyer !</p>
+			<div class="row">
+				<input type="submit" name="" class="btn btn-primary" value="Envoyer"/ >
+			</div>
+		</section>
+		<hr />
+	</div>
+</body>
+</html>
